@@ -17,7 +17,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <head>
     <base href="../../../">
     <meta charset="utf-8" />
-    <title>Login Page 1 | Keenthemes</title>
+    <title>Register</title>
     <meta name="description" content="Login page example" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="canonical" href="https://keenthemes.com/metronic" />
@@ -25,21 +25,21 @@ License: You must have a valid license purchased only from themeforest(the above
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
     <!--begin::Page Custom Styles(used by this page)-->
-    <link href="{{ asset('login/assets/css/pages/login/login-1.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('auth/assets/css/pages/login/login-1.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Page Custom Styles-->
     <!--begin::Global Theme Styles(used by all pages)-->
-    <link href="{{ asset('login/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('login/assets/plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet"
+    <link href="{{ asset('auth/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('auth/assets/plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet"
         type="text/css" />
-    <link href="{{ asset('login/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('auth/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Global Theme Styles-->
     <!--begin::Layout Themes(used by all pages)-->
-    <link href="{{ asset('login/assets/css/themes/layout/header/base/light.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('login/assets/css/themes/layout/header/menu/light.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('login/assets/css/themes/layout/brand/dark.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('login/assets/css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('auth/assets/css/themes/layout/header/base/light.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('auth/assets/css/themes/layout/header/menu/light.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('auth/assets/css/themes/layout/brand/dark.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('auth/assets/css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
-    <link rel="shortcut icon" href="{{ asset('login/assets/media/logos/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ asset('auth/assets/media/logos/favicon.ico') }}" />
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -220,12 +220,11 @@ License: You must have a valid license purchased only from themeforest(the above
     </script>
     <!--end::Global Config-->
     <!--begin::Global Theme Bundle(used by all pages)-->
-    <script src="{{ asset('login/assets/plugins/global/plugins.bundle.js') }}"></script>
-    <script src="{{ asset('login/assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
-    <script src="{{ asset('login/assets/js/scripts.bundle.js') }}"></script>
+    <script src="{{ asset('auth/assets/plugins/global/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('auth/assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
+    <script src="{{ asset('auth/assets/js/scripts.bundle.js') }}"></script>
     <!--end::Global Theme Bundle-->
     <!--begin::Page Scripts(used by this page)-->
-    
     <!--end::Page Scripts-->
 </body>
 <!--end::Body-->
