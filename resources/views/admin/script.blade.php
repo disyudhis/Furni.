@@ -18,3 +18,11 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+<script>
+    setTimeout(function() {
+        $("#autoCloseAlert").fadeOut("slow", function() {
+            $(this).remove();
+        });
+    }, 3000);
+</script>

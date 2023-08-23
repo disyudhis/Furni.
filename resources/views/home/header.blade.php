@@ -19,32 +19,40 @@
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-auto">
-                @if (Route::has('login'))
-                        @auth
 
+
+                <li class="nav-item"><a class="nav-link" href="#"><img
+                            src="{{ asset('dashboard/images/cart.svg') }}"></a></li>
+                @if (Route::has('login'))
+                    @auth
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset('dashboard/images/user.svg') }}">
+                                <img src="{{ asset('dashboard/images/user.svg') }}" class="user-icon">
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">{{ Auth::user()->name }}</a>
+                            <div class="dropdown-menu dropdown-menu-end user-dropdown" aria-labelledby="userDropdown">
+                                <div class="user-info">
+                                    <h3 class="user-name">{{ Auth::user()->name }}</h3>
+                                </div>
+                                <hr class="divider">
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="dropdown-item" data-toggle="modal"
-                                        data-target="#logoutModal">Logout</button>
+                                    <button type="submit" class="dropdown-item logout-button" data-toggle="modal"
+                                        data-target="#logoutModal">
+                                        <img src="https://cdn1.iconfinder.com/data/icons/iconnice-vector-icon/29/Vector-icons_05-512.png"
+                                            class="logout-icon" alt="Logout">
+                                        Logout
+                                    </button>
                                 </form>
                             </div>
                         </li>
-                        @else
-                            <li class="nav-item">
-                                <a class="btn btn-primary" id="logincss" href="{{ route('login') }}">Login</a>
-                            </li>
-                           
-                        @endauth
-                    @endif
-                
-                <li class="nav-item"><a class="nav-link" href="#"><img src="{{ asset('dashboard/images/cart.svg') }}"></a></li>
+                    @else
+                        <li class="nav-item">
+                            <a class="btn btn-primary" id="logincss" href="{{ route('login') }}">Login</a>
+                        </li>
+
+                    @endauth
+                @endif
             </ul>
         </div>
     </div>
