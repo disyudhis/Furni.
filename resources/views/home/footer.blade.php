@@ -2,7 +2,7 @@
     <div class="container relative">
 
         <div class="sofa-img">
-            <img src="dashboard/images/sofa.png" alt="Image" class="img-fluid">
+            <img src="{{ asset('dashboard/images/sofa.png') }}" alt="Image" class="img-fluid">
         </div>
 
 

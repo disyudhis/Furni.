@@ -75,15 +75,16 @@ License: You must have a valid license purchased only from themeforest(the above
             <!--begin::Aside-->
             <!--begin::Content-->
 
+
             <div
                 class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 mx-auto">
                 <!--begin::Content body-->
                 <div class="d-flex flex-column-fluid flex-center">
                     <!--begin::Signin-->
                     <div class="login-form">
+
                         <!--begin::Form-->
-                        <form class="form" method="POST" action="{{ route('login') }}" 
-                            ">
+                        <form class="form" method="POST" action="{{ route('login') }}" ">
                             @csrf
                             <!--begin::Title-->
                             <div class="pb-13 pt-lg-0 pt-5">
@@ -110,6 +111,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     type="password" name="password" autocomplete="off" />
                             </div>
                             <!--end::Form group-->
+                            <x-validation-errors class="mb-4" style="color: red; font-weight: 400" />
                             <!--begin::Action-->
                             <div class="pb-lg-0 pb-5">
                                 <button type="submit"
@@ -200,9 +202,6 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="{{ asset('auth/assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
     <script src="{{ asset('auth/assets/js/scripts.bundle.js') }}"></script>
     <!--end::Global Theme Bundle-->
-    <!--begin::Page Scripts(used by this page)-->
-    <script src="assets/js/pages/custom/login/login-general.js"></script>
-    <!--end::Page Scripts-->
 </body>
 <!--end::Body-->
 

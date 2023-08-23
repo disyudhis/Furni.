@@ -27,6 +27,7 @@ Route::middleware([
 });
 
 Route::get('/redirect', [HomeController::class, 'redirect'])->middleware('auth', 'verified');
+Route::get('/product_details/{id}', [HomeController::class, 'product_details']);
 
 
 // AdminController 

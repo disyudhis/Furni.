@@ -135,6 +135,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     autocomplete="off" />
                             </div>
                             <!--end::Form group-->
+                            <x-validation-errors class="mb-4" />
                             <!--begin::Form group-->
                             <div class="form-group d-flex flex-wrap pb-lg-0 pb-3">
                                 <button type="submit" id="kt_login_signup_submit"
