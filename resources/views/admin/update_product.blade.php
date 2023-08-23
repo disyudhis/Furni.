@@ -65,14 +65,14 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                    <li class="menu-item">
+                    <li class="menu-item active">
                         <a href="{{ url('/view_product') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Products</div>
+                            <div data-i18n="Analytics">Product</div>
                         </a>
                     </li>
                     {{-- Category --}}
-                    <li class="menu-item active">
+                    <li class="menu-item">
                         <a href="{{ url('/view_category') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-category"></i>
                             <div data-i18n="Analytics">Category</div>
@@ -92,6 +92,7 @@
 
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
+                    <!-- Content -->
 
                     @include('sweetalert::alert')
 
@@ -101,90 +102,100 @@
                                 {{ session()->get('message') }}
                             </div>
                         @endif
-                        {{-- Add modal --}}
-                        <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal"
-                            data-bs-target="#basicModal">
-                            Add Category
-                        </button>
 
-                        <!-- Modal -->
-                        <form action="{{ url('/add_category') }}" method="POST">
-                            @csrf
-                            <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel1">Add Category</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                        {{-- Form --}}
+                        <div class="col">
+                            <div class="card mb-4">
+                                <h5 class="card-header">Edit Product</h5>
+
+                                <div class="card-body demo-vertical-spacing demo-only-element">
+                                    <form action="{{ url('/update_product_confirm', $product->id) }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div>
+                                            <label for="editTitle" class="form-label">Title</label>
+                                            <input type="text" class="form-control" id="editTitle" name="title"
+                                                value="{{ old('title', $product->title) }}" required>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col mb-3">
-                                                    <label for="nameBasic" class="form-label">Name</label>
-                                                    <input type="text" id="nameBasic" class="form-control"
-                                                        placeholder="Enter Name" name="category" />
+
+                                        <div>
+                                            <label for="editQuantity" class="form-label">Quantity</label>
+                                            <input type="number" class="form-control" id="editQuantity" name="quantity"
+                                                value="{{ old('quantity', $product->quantity) }}" required>
+                                        </div>
+
+                                        <div>
+                                            <label for="editCategory" class="form-label">Category</label>
+                                            <select class="form-select" name="category" id="editCategory" required>
+                                                <option value="" disabled>Select a category item</option>
+                                                @foreach ($category as $category)
+                                                    <option value="{{ $category->category_name }}"
+                                                        {{ old('category', $product->category) == $category->category_name ? 'selected' : '' }}>
+                                                        {{ $category->category_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label for="nameBasic" class="form-label">Price</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">Rp</span>
+                                                <input style="color: red" id="nameBasic" type="number"
+                                                    class="form-control" name="price"
+                                                    value="{{ old('price', $product->price) }}" placeholder="Price"
+                                                    aria-label="Price">
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label for="nameBasic" class="form-label">Discount Price</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">Rp</span>
+                                                <input style="color: green" id="nameBasic" type="number"
+                                                    class="form-control" name="discount_price"
+                                                    value="{{ old('discount_price', $product->discount_price) }}"
+                                                    placeholder="Discount Price" aria-label="Discount Price">
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-0 mt-5">
+                                            <div class="col-md-4">
+                                                <label for="currentImage" class="form-label">Current Image</label>
+                                                <img class="card-img card-img-left" id="currentImage"
+                                                    src="/product/{{ $product->image }}" alt="Card image">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <label for="nameBasic" class="form-label">Image</label>
+                                                    <input type="file" id="nameBasic" class="form-control"
+                                                        placeholder="Enter Image" name="image" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-secondary"
-                                                data-bs-dismiss="modal">
-                                                Close
-                                            </button>
+                                        <div class="col mt-5">
                                             <button type="submit" class="btn btn-primary">Save changes</button>
+                                            <a href="{{ url('/view_product') }}" type="button"
+                                                class="btn btn-secondary">Cancel</a>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
-                        </form>
-
-                        {{-- Table --}}
-                        <div class="card">
-                            <h5 class="card-header">List Category</h5>
-                            <div class="table-responsive text-nowrap">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Category</th>
-                                            <th>Created At</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-border-bottom-0">
-                                        @foreach ($data as $data)
-                                            <tr>
-                                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                                    <strong>{{ $data->category_name }}</strong>
-                                                </td>
-                                                <td>{{ $data->created_at }}</td>
-                                                <td><a onclick="confirmation(event)" class="btn btn-danger"
-                                                        href="{{ url('/delete_category', $data->id) }}">x</a></td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
                         </div>
-                        {{-- End Table --}}
                     </div>
-
+                    <div class="content-backdrop fade"></div>
                 </div>
-                <div class="content-backdrop fade"></div>
+                <!-- Content wrapper -->
             </div>
-            <!-- Content wrapper -->
+            <!-- / Layout page -->
         </div>
-        <!-- / Layout page -->
-    </div>
 
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
 
     <!-- Core JS -->
     @include('admin.script')
-    
 
     <script>
         function confirmation(ev) {
@@ -192,7 +203,7 @@
             var urlToRedirect = ev.currentTarget.getAttribute('href');
             console.log(urlToRedirect);
             swal({
-                    title: "Are you sure to remove this categories?",
+                    title: "Are you sure to remove this product?",
                     text: "You will not be able to revert this!",
                     icon: "warning",
                     buttons: true,
@@ -205,6 +216,7 @@
                 })
         }
     </script>
+
 </body>
 
 </html>

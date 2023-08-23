@@ -201,7 +201,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="{{ asset('auth/assets/js/scripts.bundle.js') }}"></script>
     <!--end::Global Theme Bundle-->
     <!--begin::Page Scripts(used by this page)-->
-    
+    <script src="assets/js/pages/custom/login/login-general.js"></script>
     <!--end::Page Scripts-->
 </body>
 <!--end::Body-->

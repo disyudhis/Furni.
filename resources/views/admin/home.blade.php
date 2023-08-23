@@ -21,8 +21,6 @@
                     <!-- Content -->
 
                     @include('admin.content')
-                    <!-- / Content -->
-
 
                     <div class="content-backdrop fade"></div>
                 </div>

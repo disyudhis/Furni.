@@ -65,14 +65,14 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                    <li class="menu-item">
+                    <li class="menu-item active">
                         <a href="{{ url('/view_product') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Products</div>
+                            <div data-i18n="Analytics">Product</div>
                         </a>
                     </li>
                     {{-- Category --}}
-                    <li class="menu-item active">
+                    <li class="menu-item">
                         <a href="{{ url('/view_category') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-category"></i>
                             <div data-i18n="Analytics">Category</div>
@@ -92,6 +92,7 @@
 
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
+                    <!-- Content -->
 
                     @include('sweetalert::alert')
 
@@ -104,26 +105,77 @@
                         {{-- Add modal --}}
                         <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal"
                             data-bs-target="#basicModal">
-                            Add Category
+                            Add Product
                         </button>
 
-                        <!-- Modal -->
-                        <form action="{{ url('/add_category') }}" method="POST">
+                        <!-- Modal Add -->
+                        <form action="{{ url('/add_product') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel1">Add Category</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel1">Add Product</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="col mb-3">
-                                                    <label for="nameBasic" class="form-label">Name</label>
+                                                    <label for="nameBasic" class="form-label">Title</label>
                                                     <input type="text" id="nameBasic" class="form-control"
-                                                        placeholder="Enter Name" name="category" />
+                                                        required placeholder="Enter Title" name="title" />
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col mb-3">
+                                                    <label for="nameBasic" class="form-label">Stock Quantity</label>
+                                                    <input type="number" id="nameBasic" class="form-control"
+                                                        required placeholder="Enter quantity" name="quantity" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col mb-3">
+                                                    <label for="exampleFormControlSelect1"
+                                                        class="form-label">Category</label>
+                                                    <select class="form-select" id="exampleFormControlSelect1"
+                                                        required name="category" aria-label="Default select example">
+                                                        <option selected="">Select one</option>
+                                                        @foreach ($category as $category)
+                                                            <option value="{{ $category->category_name }}">
+                                                                {{ $category->category_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col mb-3">
+                                                    <label for="nameBasic" class="form-label">Price</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">Rp</span>
+                                                        <input id="nameBasic" type="number" class="form-control"
+                                                            name="price" placeholder="Price"
+                                                            aria-label="Discount Price" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col mb-3">
+                                                    <label for="nameBasic" class="form-label">Discount Price</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">Rp</span>
+                                                        <input id="nameBasic" type="number" class="form-control"
+                                                            name="discount_price" placeholder="Discount Price"
+                                                            aria-label="Discount Price">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col mb-3">
+                                                    <label for="nameBasic" class="form-label">Image</label>
+                                                    <input type="file" id="nameBasic" class="form-control"
+                                                        placeholder="Enter Image" name="image" required />
                                                 </div>
                                             </div>
                                         </div>
@@ -141,27 +193,45 @@
 
                         {{-- Table --}}
                         <div class="card">
-                            <h5 class="card-header">List Category</h5>
+                            <h5 class="card-header">List Product</h5>
                             <div class="table-responsive text-nowrap">
-                                <table class="table">
+                                <table class="table text-center">
                                     <thead>
                                         <tr>
+                                            <th>Title</th>
+                                            <th>Image</th>
+                                            <th>Quantity</th>
                                             <th>Category</th>
-                                            <th>Created At</th>
+                                            <th>Price</th>
+                                            <th>Discount Price</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
-                                        @foreach ($data as $data)
+                                        @if (count($product) > 0)
+                                            @foreach ($product as $product)
+                                                <tr>
+                                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                                        <strong>{{ $product->title }}</strong>
+                                                    </td>
+                                                    <td><img src="/product/{{ $product->image }}" width="150"
+                                                            height="100" alt="{{ $product->title }}"></td>
+                                                    <td>{{ $product->quantity }}</td>
+                                                    <td>{{ $product->category }}</td>
+                                                    <td style="color: red">Rp. {{ $product->price }}</td>
+                                                    <td style="color: green">Rp. {{ $product->discount_price }}</td>
+                                                    <td><a onclick="confirmation(event)" class="btn btn-danger"
+                                                            href="{{ url('/delete_product', $product->id) }}">x</a>
+                                                        <a href="{{ url('/update_product', $product->id) }}"
+                                                            class="btn btn-warning"><i class='bx bx-edit-alt'></i></a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
                                             <tr>
-                                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                                    <strong>{{ $data->category_name }}</strong>
-                                                </td>
-                                                <td>{{ $data->created_at }}</td>
-                                                <td><a onclick="confirmation(event)" class="btn btn-danger"
-                                                        href="{{ url('/delete_category', $data->id) }}">x</a></td>
+                                                <td colspan="7">Product Not Found</td>
                                             </tr>
-                                        @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -169,22 +239,21 @@
                         {{-- End Table --}}
                     </div>
 
-                </div>
-                <div class="content-backdrop fade"></div>
-            </div>
-            <!-- Content wrapper -->
-        </div>
-        <!-- / Layout page -->
-    </div>
 
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
+            </div>
+            <!-- / Layout page -->
+        </div>
+
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
 
     <!-- Core JS -->
     @include('admin.script')
-    
 
     <script>
         function confirmation(ev) {
@@ -192,7 +261,7 @@
             var urlToRedirect = ev.currentTarget.getAttribute('href');
             console.log(urlToRedirect);
             swal({
-                    title: "Are you sure to remove this categories?",
+                    title: "Are you sure to remove this product?",
                     text: "You will not be able to revert this!",
                     icon: "warning",
                     buttons: true,
@@ -205,6 +274,7 @@
                 })
         }
     </script>
+
 </body>
 
 </html>

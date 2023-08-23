@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminController extends Controller
 {
@@ -36,5 +38,70 @@ class AdminController extends Controller
 
         $data->delete();
         return redirect()->back()->with('message', 'Category deleted successfully!');
+    }
+
+    public function view_product()
+    {
+        $category = Category::all();
+        $product = Product::all();
+        return view('admin.product', compact('category', 'product'));
+    }
+
+    public function add_product(Request $request)
+    {
+        $product = new Product;
+        $product->title = $request->title;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->discount_price = $request->discount_price;
+        $product->category = $request->category;
+        $image = $request->image;
+        $imagename = time() . '.' . $image->getClientOriginalExtension();
+        $request->image->move('product', $imagename);
+        $product->image = $imagename;
+        $product->save();
+
+        Alert::success("Product added successfully", 'We have added your product');
+        return redirect()->back();
+    }
+
+    public function delete_product($id)
+    {
+        $product = Product::find($id);
+        $product->delete();
+        return redirect()->back()->with('message', 'Product deleted successfully!');
+    }
+
+
+    public function update_product($id)
+    {
+        $product = Product::find($id);
+        $category = Category::all();
+
+        return view('admin.update_product', compact('product', 'category'));
+    }
+
+    public function update_product_confirm(Request $request, $id)
+    {
+        if (Auth::id()) {
+            $product = Product::find($id);
+            $product->title = $request->title;
+            $product->quantity = $request->quantity;
+            $product->category = $request->category;
+            $product->price = $request->price;
+            $product->discount_price = $request->discount_price;
+            $image = $request->image;
+            if ($image) {
+
+                $imagename = time() . '.' . $image->getClientOriginalExtension();
+                $request->image->move('product', $imagename);
+                $product->image = $imagename;
+            }
+            $product->save();
+            Alert::success("Product updated successfully", "We have updated your product");
+            return redirect('view_product');
+        } else {
+            return redirect('login');
+        }
     }
 }
