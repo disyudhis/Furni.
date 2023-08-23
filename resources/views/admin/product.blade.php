@@ -68,7 +68,7 @@
                     <li class="menu-item active">
                         <a href="{{ url('/view_product') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Product</div>
+                            <div data-i18n="Analytics">Products</div>
                         </a>
                     </li>
                     {{-- Category --}}

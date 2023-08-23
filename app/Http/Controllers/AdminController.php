@@ -43,7 +43,7 @@ class AdminController extends Controller
     public function view_product()
     {
         $category = Category::all();
-        $product = Product::all();
+        $product = Product::orderBy('updated_at', 'desc')->get();
         return view('admin.product', compact('category', 'product'));
     }
 

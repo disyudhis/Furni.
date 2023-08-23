@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
@@ -13,18 +14,21 @@ class HomeController extends Controller
     public function redirect()
     {
         $usertype = Auth::user()->usertype;
+        $category = Category::all();
+        $product = Product::orderBy('updated_at', 'desc')->get();
 
         if ($usertype == '1') {
 
-            return view('admin.product');
+            return view('admin.product', compact('category', 'product'));
         } else {
-
-            return view('home.userpage');
+            $product = Product::paginate(10);
+            return view('home.userpage', compact('product'));
         }
     }
 
     public function index()
     {
-        return view('home.userpage');
+        $product = Product::paginate(10);
+        return view('home.userpage', compact('product'));
     }
 }

@@ -7,15 +7,7 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        <!-- Search -->
-        <div class="navbar-nav align-items-center">
-            <div class="nav-item d-flex align-items-center">
-                <i class="bx bx-search fs-4 lh-0"></i>
-                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
-                    aria-label="Search..." />
-            </div>
-        </div>
-        <!-- /Search -->
+        
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
@@ -48,9 +40,9 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <form action="{{ url('logout') }}" method="POST">
+                        <form action="{{ url('logout') }}" method="POST" id="logoutForm">
                             @csrf
-                            <button type="submit" class="dropdown-item">
+                            <button onclick="logout(event)" type="submit" class="dropdown-item">
                                 <i class="bx bx-power-off me-2"></i>
                                 <span class="align-middle">Log Out</span>
                             </button>
@@ -62,3 +54,24 @@
         </ul>
     </div>
 </nav>
+
+<script>
+    function logout(ev) {
+        ev.preventDefault();
+        var form = document.getElementById('logoutForm');
+        var urlToRedirect = ev.currentTarget.getAttribute('href');
+        console.log(urlToRedirect);
+        swal({
+                title: "Are you sure?",
+                text: "You will be logged out!",
+                icon: "warning",
+                buttons: ['Cancel', 'Yes, log me out!'],
+                dangerMode: true,
+            })
+            .then((willLogout) => {
+                if (willLogout) {
+                    form.submit();
+                }
+            })
+    }
+</script>

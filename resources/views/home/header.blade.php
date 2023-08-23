@@ -16,6 +16,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Order</a>
                 </li>
+                <li>
+                    
+                </li>
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-auto">
@@ -35,10 +38,10 @@
                                     <h3 class="user-name">{{ Auth::user()->name }}</h3>
                                 </div>
                                 <hr class="divider">
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST" action="{{ route('logout') }}" id="logoutForm">
                                     @csrf
-                                    <button type="submit" class="dropdown-item logout-button" data-toggle="modal"
-                                        data-target="#logoutModal">
+                                    <button onclick="logout(event)" type="submit" class="dropdown-item logout-button"
+                                        data-toggle="modal" data-target="#logoutModal">
                                         <img src="https://cdn1.iconfinder.com/data/icons/iconnice-vector-icon/29/Vector-icons_05-512.png"
                                             class="logout-icon" alt="Logout">
                                         Logout
@@ -58,3 +61,24 @@
     </div>
 
 </nav>
+
+<script>
+    function logout(ev) {
+        ev.preventDefault();
+        var form = document.getElementById('logoutForm');
+        var urlToRedirect = ev.currentTarget.getAttribute('href');
+        console.log(urlToRedirect);
+        swal({
+                title: "Are you sure?",
+                text: "You will be logged out!",
+                icon: "warning",
+                buttons: ['Cancel', 'Yes, log me out!'],
+                dangerMode: true,
+            })
+            .then((willLogout) => {
+                if (willLogout) {
+                    form.submit();
+                }
+            })
+    }
+</script>
