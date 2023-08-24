@@ -1,11 +1,11 @@
 <div class="untree_co-section product-section before-footer-section">
     <div class="container">
-        <div class="row">
+        <div class="row" id="shop">
             <!-- Search -->
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-magnifying-glass"></i></span>
-                <input type="text" class="form-control" placeholder="Search..."
-                    aria-label="Search..." aria-describedby="button-addon2">
+                <input type="text" class="form-control" placeholder="Search..." aria-label="Search..."
+                    aria-describedby="button-addon2">
                 <button class="btn btn-outline-primary" type="submit" id="button-addon2">Search</button>
             </div>
             <!-- /Search -->
@@ -15,30 +15,30 @@
                 <div class="col-12 col-md-4 col-lg-3 mb-5 mt-5">
                     <a class="product-item" href="{{ url('/product_details', $products->id) }}">
                         <img src="/product/{{ $products->image }}" class="img-fluid product-thumbnail">
-                        <h3 class="product-title">{{ $products->title }}</h3>
-
+                        <h2 class="product-title">{{ $products->title }}</h2>
+                        <figcaption class="blockquote-footer">
+                            Category : {{ $products->category }}
+                        </figcaption>
                         @if ($products->discount_price != null)
-                            <strong class="product-price">Discount Price
-                                <span style="color: red">
-                                    Rp. {{ $products->discount_price }}
+                            <p class="product-price fs-6 fw-medium">Discount Price
+                                <span class="fw-bold" style="color: red">
+                                    Rp. {{ number_format($products->discount_price, 0, ',', '.') }}
                                 </span>
-                            </strong>
-                            <br>
-                            <strong class="product-price">
+                            </p>
+                            <p class="product-price fs-6 fw-medium">
                                 Price :
-                                <span style="text-decoration: line-through; color: green">
-                                    Rp. {{ $products->price }}
+                                <span class="fw-bold" style="text-decoration: line-through; color: green">
+                                    Rp. {{ number_format($products->price, 0, ',', '.') }}
                                 </span>
-                            </strong>
+                            </p>
                         @else
-                            <strong class="product-price">
+                            <p class="product-price fs-6 fw-medium">
                                 Price :
-                                <span style="color: green">
-                                    Rp. {{ $products->price }}
+                                <span class="fw-bold" style="color: green">
+                                    Rp. {{ number_format($products->price, 0, ',', '.') }}
                                 </span>
-                            </strong>
+                            </p>
                         @endif
-
                         <span class="icon-cross">
                             <img src="dashboard/images/cross.svg" class="img-fluid">
                         </span>

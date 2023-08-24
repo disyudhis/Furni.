@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', [HomeController::class, 'index']);
 
 Route::middleware([
@@ -28,6 +29,15 @@ Route::middleware([
 
 Route::get('/redirect', [HomeController::class, 'redirect'])->middleware('auth', 'verified');
 Route::get('/product_details/{id}', [HomeController::class, 'product_details']);
+Route::get('/show_cart', [HomeController::class, 'show_cart']);
+Route::post('/add_cart/{id}', [HomeController::class, 'add_cart']);
+Route::get('/remove_cart/{id}', [HomeController::class, 'remove_cart']);
+// Route::get('/decrease-quantity/{id}', [HomeController::class, 'decrease_quantity']);
+// Route::get('/increase-quantity/{id}', [HomeController::class, 'increase_quantity']);
+Route::get('/decrease_quantity/{cartId}', [HomeController::class, 'decreaseQuantity'])->name('decreaseQuantity');
+Route::get('/increase_quantity/{cartId}', [HomeController::class, 'increaseQuantity'])->name('increaseQuantity');
+
+
 
 
 // AdminController 

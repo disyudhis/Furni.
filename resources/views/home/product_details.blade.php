@@ -14,7 +14,8 @@
     <div class="why-choose-section">
         <div class="container">
             <div class="row justify-content-between align-items-center">
-                <div class="col-lg-5 m-3" style="border-right: 1px solid rgba(0, 0, 0, 0.2); height: 100%; margin: 0 15px">
+                <div class="col-lg-5 m-3"
+                    style="border-right: 1px solid rgba(0, 0, 0, 0.2); height: 100%; margin: 0 15px">
                     <div class="img-wrap pr-5">
                         <img src="/product/{{ $product->image }}" alt="Image" class="img-fluid">
                     </div>
@@ -34,23 +35,25 @@
                             <div class="feature">
                                 @if ($product->discount_price != null)
                                     <p>Original Price : <span style="color: red; text-decoration: line-through">Rp.
-                                            {{ $product->price }}</span> </p>
+                                            {{ number_format($product->price, 0, ',', '.') }}</span> </p>
                                     <h4 class="display-6"><span style="color: green; font-weight: 600">Rp.
-                                            {{ $product->discount_price }}</span> </h4>
+                                            {{ number_format($product->discount_price, 0, ',', '.') }}</span> </h4>
                                 @else
                                     <h4 class="display-6"><span style="color: green; font-weight: 600">Rp.
-                                            {{ $product->price }}</span> </h4>
+                                            {{ number_format($product->price, 0, ',', '.') }}</span> </h4>
                                 @endif
                                 <hr>
+                                <p>Category : {{ $product->category }}</p>
                                 <p>Stock : {{ $product->quantity }}</p>
-                                <form action="{{ url('/add_cart') }}">
+                                <form action="{{ url('add_cart', $product->id) }}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-6 col-md-4">
-                                            <input class="form-control" type="number" min="1" value="1">
+                                            <input class="form-control" name="quantity" type="number" min="1"
+                                                value="1">
                                         </div>
                                         <div class="col-6 col-md-8">
-                                            <a class="btn btn-primary" type="submit">Add To Cart</a>
+                                            <button class="btn btn-primary" type="submit">Add To Cart</button>
                                         </div>
                                     </div>
                                 </form>

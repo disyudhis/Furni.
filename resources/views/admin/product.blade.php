@@ -218,8 +218,13 @@
                                                             height="100" alt="{{ $product->title }}"></td>
                                                     <td>{{ $product->quantity }}</td>
                                                     <td>{{ $product->category }}</td>
-                                                    <td style="color: red">Rp. {{ $product->price }}</td>
-                                                    <td style="color: green">Rp. {{ $product->discount_price }}</td>
+                                                    <td style="color: red">Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
+                                                    @if ($product->discount_price != null)
+                                                        <td style="color: green">Rp. {{ number_format($product->discount_price, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>-</td>
+                                                    @endif
                                                     <td><a onclick="confirmation(event)" class="btn btn-danger"
                                                             href="{{ url('/delete_product', $product->id) }}">x</a>
                                                         <a href="{{ url('/update_product', $product->id) }}"
