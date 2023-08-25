@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Stripe;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
@@ -9,6 +10,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
@@ -145,5 +147,97 @@ class HomeController extends Controller
         }
 
         return redirect()->back(); // Redirect back to the cart page
+    }
+
+    public function cash_order()
+    {
+        $user = Auth::user();
+        $userid = $user->id;
+        $data = Cart::where('user_id', '=', $userid)->get();
+
+        foreach ($data as $data) {
+            $order = new Order;
+            $order->name = $data->name;
+            $order->email = $data->email;
+            $order->phone = $data->phone;
+            $order->address = $data->address;
+            $order->user_id = $data->user_id;
+            $order->product_title = $data->product_title;
+            $order->price = $data->price;
+            $order->quantity = $data->quantity;
+            $order->image = $data->image;
+            $order->product_id = $data->product_id;
+
+            $order->payment_status = 'cash on delivery';
+            $order->delivery_status = 'processing';
+
+            $order->save();
+
+            $cart_id = $data->id;
+            $cart = Cart::find($cart_id);
+            $cart->delete();
+        }
+        Alert::success('Product(s) have been checkout', 'Thank you for your support!');
+        return redirect()->back();
+    }
+
+    public function stripe($totalPrice)
+    {
+        return view('home.stripe', compact('totalPrice'));
+    }
+
+    public function stripePost(Request $request, $totalPrice)
+    {
+        Stripe\Stripe::setApiKey('sk_test_51NfGiQKVBk5Kb9tfHHlyQoK9Rf3vznY5rwP35FXLCEP51MtKQvM8eRpCgQ0MvYs9uCrK0fIJKXZfENDFZlnAYYaI00B6LIMrSh');
+
+        Stripe\Charge::create([
+            "amount" => $totalPrice,
+            "currency" => "idr",
+            "source" => $request->stripeToken,
+            "description" => "Thankyou for your support!"
+        ]);
+
+        $user = Auth::user();
+        $userid = $user->id;
+        $data = Cart::where('user_id', '=', $userid)->get();
+
+        foreach ($data as $data) {
+            $order = new Order;
+            $order->name = $data->name;
+            $order->email = $data->email;
+            $order->phone = $data->phone;
+            $order->address = $data->address;
+            $order->user_id = $data->user_id;
+            $order->product_title = $data->product_title;
+            $order->price = $data->price;
+            $order->quantity = $data->quantity;
+            $order->image = $data->image;
+            $order->product_id = $data->product_id;
+
+            $order->payment_status = 'Paid';
+            $order->delivery_status = 'processing';
+
+            $order->save();
+
+            $cart_id = $data->id;
+            $cart = Cart::find($cart_id);
+            $cart->delete();
+        }
+
+        Session::flash('success', 'Payment successful!');
+
+        return redirect('/');
+    }
+
+    public function show_order()
+    {
+        if (Auth::id()) {
+            $user = Auth::user();
+            $userId = $user->id;
+            $order = Order::where('user_id', '=', $userId)->get();
+            return view('home.order', compact('order'));
+        } else {
+            return redirect('login');
+        }
     }
 }

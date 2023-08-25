@@ -15,7 +15,7 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware([
     'auth:sanctum',
@@ -27,25 +27,31 @@ Route::middleware([
     })->name('dashboard');
 });
 
+// HomeController
 Route::get('/redirect', [HomeController::class, 'redirect'])->middleware('auth', 'verified');
 Route::get('/product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('/show_cart', [HomeController::class, 'show_cart']);
 Route::post('/add_cart/{id}', [HomeController::class, 'add_cart']);
 Route::get('/remove_cart/{id}', [HomeController::class, 'remove_cart']);
-// Route::get('/decrease-quantity/{id}', [HomeController::class, 'decrease_quantity']);
-// Route::get('/increase-quantity/{id}', [HomeController::class, 'increase_quantity']);
 Route::get('/decrease_quantity/{cartId}', [HomeController::class, 'decreaseQuantity'])->name('decreaseQuantity');
 Route::get('/increase_quantity/{cartId}', [HomeController::class, 'increaseQuantity'])->name('increaseQuantity');
-
-
+Route::get('/cash_order', [HomeController::class, 'cash_order']);
+Route::get('/stripe/{totalPrice}', [HomeController::class, 'stripe']);
+Route::post('/stripe/{totalPrice}', [HomeController::class, 'stripePost'])->name('stripe.post');
+Route::get('/show_order', [HomeController::class, 'show_order']);
 
 
 // AdminController 
-Route::get('/view_category', [AdminController::class, 'view_category']);
-Route::get('/delete_category/{id}', [AdminController::class, 'delete_category']);
-Route::post('/add_category', [AdminController::class, 'add_category']);
-Route::get('/view_product', [AdminController::class, 'view_product']);
-Route::post('/add_product', [AdminController::class, 'add_product']);
-Route::get('/delete_product/{id}', [AdminController::class, 'delete_product']);
-Route::get('/update_product/{id}', [AdminController::class, 'update_product']);
-Route::post('/update_product_confirm/{id}', [AdminController::class, 'update_product_confirm']);
+Route::group(['middleware' => 'restrict.admin'], function () {
+    Route::get('/view_category', [AdminController::class, 'view_category']);
+    Route::get('/delete_category/{id}', [AdminController::class, 'delete_category']);
+    Route::post('/add_category', [AdminController::class, 'add_category']);
+    Route::get('/view_product', [AdminController::class, 'view_product']);
+    Route::post('/add_product', [AdminController::class, 'add_product']);
+    Route::get('/delete_product/{id}', [AdminController::class, 'delete_product']);
+    Route::get('/update_product/{id}', [AdminController::class, 'update_product']);
+    Route::post('/update_product_confirm/{id}', [AdminController::class, 'update_product_confirm']);
+    Route::get('/order', [AdminController::class, 'order']);
+    Route::get('/search', [AdminController::class, 'searchdata']);
+    Route::get('/delivered/{id}', [AdminController::class, 'delivered']);
+});

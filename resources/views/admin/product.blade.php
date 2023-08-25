@@ -7,7 +7,7 @@
             <!-- Menu -->
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="index.html" class="app-brand-link">
+                    <a href="{{ url('/redirect') }}" class="app-brand-link">
                         <span class="app-brand-logo demo">
                             <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -76,6 +76,13 @@
                         <a href="{{ url('/view_category') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-category"></i>
                             <div data-i18n="Analytics">Category</div>
+                        </a>
+                    </li>
+                    {{-- Order --}}
+                    <li class="menu-item">
+                        <a href="{{ url('order') }}" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-money'></i>
+                            <div data-i18n="Analytics">Order</div>
                         </a>
                     </li>
                 </ul>

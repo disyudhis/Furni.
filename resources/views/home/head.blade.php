@@ -31,7 +31,7 @@
             height: 24px;
             margin-right: 8px;
         }
-    
+
         .user-dropdown {
             border: none;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -40,17 +40,17 @@
             font-size: 14px;
             text-align: center;
         }
-    
+
         .user-name {
             font-size: 15px;
             margin-top: 10px;
         }
-    
+
         .divider {
             border-top: 2px solid #dee2e6;
             margin: 10px 0;
         }
-    
+
         .logout-button {
             background-color: #f8f9fa;
             border: none;
@@ -62,11 +62,12 @@
             color: #343a40;
             font-weight: bold;
         }
-    
+
         .logout-icon {
             width: 20px;
             height: 20px;
             margin-right: 10px;
         }
     </style>
+
 </head>

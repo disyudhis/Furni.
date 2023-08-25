@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -103,5 +104,32 @@ class AdminController extends Controller
         } else {
             return redirect('login');
         }
+    }
+
+    public function order()
+    {
+        $order = Order::orderBy('updated_at', 'desc')->get();
+        return view('admin.order', compact('order'));
+    }
+
+    public function searchdata(Request $request)
+    {
+        $searchText = $request->search;
+        $order = Order::whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($searchText) . '%'])
+            ->orWhereRaw('LOWER(phone) LIKE ?', ['%' . strtolower($searchText) . '%'])
+            ->orWhereRaw('LOWER(product_title) LIKE ?', ['%' . strtolower($searchText) . '%'])
+            ->orderBy('updated_at', 'desc')
+            ->get();
+        return view('admin.order', compact('order'));
+    }
+
+    public function delivered($id)
+    {
+        $order = Order::find($id);
+        $order->delivery_status = 'Delivered';
+        $order->payment_status = 'Paid';
+        $order->save();
+
+        return redirect()->back();
     }
 }

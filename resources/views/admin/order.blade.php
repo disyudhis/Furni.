@@ -72,16 +72,16 @@
                         </a>
                     </li>
                     {{-- Category --}}
-                    <li class="menu-item active">
+                    <li class="menu-item">
                         <a href="{{ url('/view_category') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-category"></i>
                             <div data-i18n="Analytics">Category</div>
                         </a>
                     </li>
                     {{-- Order --}}
-                    <li class="menu-item">
+                    <li class="menu-item active">
                         <a href="{{ url('order') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-money"></i>
+                            <i class='menu-icon tf-icons bx bx-money'></i>
                             <div data-i18n="Analytics">Order</div>
                         </a>
                     </li>
@@ -93,8 +93,78 @@
             <!-- Layout container -->
             <div class="layout-page">
                 <!-- Navbar -->
-                @include('admin.navbar')
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-sm"></i>
+                        </a>
+                    </div>
 
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        {{-- Search --}}
+                        <div class="navbar-nav align-items-center">
+                            <form action="{{ url('search') }}" method="GET">
+                                @csrf
+                                <div class="nav-item d-flex align-items-center">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bx bx-search fs-4 lh-0"></i></span>
+                                        <input type="text" name="search" class="form-control"
+                                            placeholder="Search..." aria-label="Search..."
+                                            aria-describedby="button-addon2">
+                                        <button class="btn btn-primary" type="submit"
+                                            id="button-addon2">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                            <!-- User -->
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="avatar">
+                                        <img src="http://getdrawings.com/free-icon-bw/generic-avatar-icon-3.png" alt
+                                            class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar">
+                                                        <img src="http://getdrawings.com/free-icon-bw/generic-avatar-icon-3.png"
+                                                            alt class="w-px-40 h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
+                                                    <small class="text-muted">Admin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <form action="{{ url('logout') }}" method="POST" id="logoutForm">
+                                            @csrf
+                                            <button onclick="logout(event)" type="submit" class="dropdown-item">
+                                                <i class="bx bx-power-off me-2"></i>
+                                                <span class="align-middle">Log Out</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--/ User -->
+                        </ul>
+                    </div>
+                </nav>
                 <!-- / Navbar -->
 
                 <!-- Content wrapper -->
@@ -108,67 +178,56 @@
                                 {{ session()->get('message') }}
                             </div>
                         @endif
-                        {{-- Add modal --}}
-                        <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal"
-                            data-bs-target="#basicModal">
-                            Add Category
-                        </button>
-
-                        <!-- Modal -->
-                        <form action="{{ url('/add_category') }}" method="POST">
-                            @csrf
-                            <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel1">Add Category</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col mb-3">
-                                                    <label for="nameBasic" class="form-label">Name</label>
-                                                    <input type="text" id="nameBasic" class="form-control"
-                                                        placeholder="Enter Name" name="category" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-secondary"
-                                                data-bs-dismiss="modal">
-                                                Close
-                                            </button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
 
                         {{-- Table --}}
                         <div class="card">
-                            <h5 class="card-header">List Category</h5>
+                            <h5 class="card-header">Order History</h5>
                             <div class="table-responsive text-nowrap">
-                                <table class="table">
+                                <table class="table text-center">
                                     <thead>
                                         <tr>
-                                            <th>Category</th>
-                                            <th>Created At</th>
-                                            <th>Action</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Address</th>
+                                            <th>Phone</th>
+                                            <th>Product Title</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Payment Status</th>
+                                            <th>Delivery Status</th>
+                                            <th>Image</th>
+                                            <th>Delivered</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
-                                        @foreach ($data as $data)
+                                        @forelse ($order as $order)
                                             <tr>
-                                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                                    <strong>{{ $data->category_name }}</strong>
+                                                <td>{{ $order->name }}</td>
+                                                <td>{{ $order->email }}</td>
+                                                <td>{{ $order->address }}</td>
+                                                <td>{{ $order->phone }}</td>
+                                                <td>{{ $order->product_title }}</td>
+                                                <td>{{ $order->quantity }}</td>
+                                                <td>{{ $order->price }}</td>
+                                                <td>{{ $order->payment_status }}</td>
+                                                <td>{{ $order->delivery_status }}</td>
+                                                <td><img src="/product/{{ $order->image }}" alt=""
+                                                        width="100"></td>
+                                                <td>
+                                                    @if ($order->delivery_status == 'processing')
+                                                        <a href="{{ url('delivered', $order->id) }}"
+                                                            onclick="confirmation(event)"
+                                                            class="btn btn-primary">Delivered</a>
+                                                    @else
+                                                        <p style="color: green">Delivered</p>
+                                                    @endif
                                                 </td>
-                                                <td>{{ $data->created_at }}</td>
-                                                <td><a onclick="confirmation(event)" class="btn btn-danger"
-                                                        href="{{ url('/delete_category', $data->id) }}">x</a></td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="16">No Data Found</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -191,7 +250,7 @@
 
     <!-- Core JS -->
     @include('admin.script')
-    
+
 
     <script>
         function confirmation(ev) {
@@ -199,7 +258,7 @@
             var urlToRedirect = ev.currentTarget.getAttribute('href');
             console.log(urlToRedirect);
             swal({
-                    title: "Are you sure to remove this categories?",
+                    title: "Are you sure?",
                     text: "You will not be able to revert this!",
                     icon: "warning",
                     buttons: true,
@@ -208,6 +267,27 @@
                 .then((willCancel) => {
                     if (willCancel) {
                         window.location.href = urlToRedirect;
+                    }
+                })
+        }
+    </script>
+
+    <script>
+        function logout(ev) {
+            ev.preventDefault();
+            var form = document.getElementById('logoutForm');
+            var urlToRedirect = ev.currentTarget.getAttribute('href');
+            console.log(urlToRedirect);
+            swal({
+                    title: "Are you sure?",
+                    text: "You will be logged out!",
+                    icon: "warning",
+                    buttons: ['Cancel', 'Yes, log me out!'],
+                    dangerMode: true,
+                })
+                .then((willLogout) => {
+                    if (willLogout) {
+                        form.submit();
                     }
                 })
         }

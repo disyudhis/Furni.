@@ -18,7 +18,7 @@
                         <a class="nav-link" href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Order</a>
+                        <a class="nav-link" href="{{ url('show_order') }}">Order</a>
                     </li>
                     <li>
 
@@ -105,8 +105,8 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $totalPrice = 0; ?>
                                 @if (count($cart) > 0)
-                                    <?php $totalPrice = 0; ?>
                                     @foreach ($cart as $cartItem)
                                         <?php $itemPrice = $cartItem->price / $cartItem->quantity; ?>
                                         <tr>
@@ -176,12 +176,31 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button class="btn btn-black btn-lg py-3 btn-block"
-                                        onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                            @if (count($cart) > 0)
+                                <div class="row">
+                                    <div class="col-6 col-md-6">
+                                        <a onclick="checkout(event)" href="{{ url('cash_order') }}" class="btn btn-black btn-md">Cash On
+                                            Delivery</a>
+                                    </div>
+                                    <div class="col-6 col-md-6">
+                                        <a href="{{ url('stripe', $totalPrice) }}" class="btn btn-primary btn-md">Pay
+                                            Using Card</a>
+                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                <div class="row">
+                                    <div class="col-6 col-md-6">
+                                        <a href="{{ url('cash_order') }}" class="btn btn-black btn-md disabled">Cash
+                                            On
+                                            Delivery</a>
+                                    </div>
+                                    <div class="col-6 col-md-6">
+                                        <a href="{{ url('stripe', $totalPrice) }}"
+                                            class="btn btn-primary btn-md disabled">Pay
+                                            Using Card</a>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -233,6 +252,26 @@
                 .then((willLogout) => {
                     if (willLogout) {
                         form.submit();
+                    }
+                })
+        }
+    </script>
+
+    <script>
+        function checkout(ev) {
+            ev.preventDefault();
+            var urlToRedirect = ev.currentTarget.getAttribute('href');
+            console.log(urlToRedirect);
+            swal({
+                    title: "Ready To Checkout?",
+                    text: "You will not be able to revert this!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willCancel) => {
+                    if (willCancel) {
+                        window.location.href = urlToRedirect;
                     }
                 })
         }
