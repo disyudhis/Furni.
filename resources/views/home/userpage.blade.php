@@ -12,8 +12,7 @@
                 <div class="col-lg-5">
                     <div class="intro-excerpt">
                         <h1>Modern Interior <span clsas="d-block">Design Studio</span></h1>
-                        <p><a href="#shop"
-                                class="btn btn-white-outline">Explore</a></p>
+                        <p><a href="#shop" class="btn btn-white-outline">Explore</a></p>
                     </div>
                 </div>
                 <div class="col-lg-7">
@@ -38,6 +37,8 @@
 
 
     @include('home.script')
+
+    
 </body>
 
 </html>

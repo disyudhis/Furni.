@@ -240,4 +240,21 @@ class HomeController extends Controller
             return redirect('login');
         }
     }
+
+    public function cancel_order($id)
+    {
+        $order = Order::find($id);
+        $order->delivery_status = 'You canceled the order';
+        $order->save();
+        return redirect()->back();
+    }
+
+    public function product_search(Request $request)
+    {
+        $search_text = $request->search;
+        $product = Product::whereRaw('LOWER(title) LIKE ?', ['%' . strtolower($search_text) . '%'])
+            ->orWhereRaw('LOWER(category) LIKE ?', ['%' . strtolower($search_text) . '%'])
+            ->orderBy('updated_at', 'desc')->paginate(10);
+        return view('home.userpage', compact('product'));
+    }
 }
