@@ -224,7 +224,7 @@ class HomeController extends Controller
             $cart->delete();
         }
 
-        Session::flash('success', 'Payment successful!');
+        Alert::success('Payment succeed', 'Thank you for your support!');
 
         return redirect('/');
     }

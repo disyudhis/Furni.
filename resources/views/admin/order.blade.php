@@ -218,6 +218,8 @@
                                                         <a href="{{ url('delivered', $order->id) }}"
                                                             onclick="confirmation(event)"
                                                             class="btn btn-primary">Delivered</a>
+                                                    @elseif($order->delivery_status == 'You canceled the order')
+                                                        <p style="color: red">Canceled</p>
                                                     @else
                                                         <p style="color: green">Delivered</p>
                                                     @endif
