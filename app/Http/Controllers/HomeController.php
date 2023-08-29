@@ -191,7 +191,7 @@ class HomeController extends Controller
         Stripe\Stripe::setApiKey('sk_test_51NfGiQKVBk5Kb9tfHHlyQoK9Rf3vznY5rwP35FXLCEP51MtKQvM8eRpCgQ0MvYs9uCrK0fIJKXZfENDFZlnAYYaI00B6LIMrSh');
 
         Stripe\Charge::create([
-            "amount" => $totalPrice * 100,
+            "amount" => $totalPrice,
             "currency" => "idr",
             "source" => $request->stripeToken,
             "description" => "Thankyou for your support!"
